@@ -130,6 +130,9 @@ while not game_over:
 					turn += 1
 					turn = turn % 2
 
+					print_board(board)
+					draw_board(board)	
+
 
 	# # Ask for Player 2 Input
 	if turn == KI and not game_over:

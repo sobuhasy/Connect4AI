@@ -15,6 +15,7 @@ COLUMN_COUNT = 7
 PLAYER = 0
 KI = 1
 
+EMPTY = 0
 PLAYER_PIECE = 1
 KI_PIECE = 2
 
@@ -72,6 +73,8 @@ def score_position(board, piece):
 			window = row_array[c:c+WINDOW_LENGTH]
 			if window.count(piece) == 4:
 				score += 100
+			elif window.count(piece) == 3 and window.count(EMPTY) == 1:
+				score += 10
 
 	return score
 

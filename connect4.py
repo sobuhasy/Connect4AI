@@ -76,7 +76,6 @@ def draw_board(board):
 board = create_board()
 print_board(board)
 game_over = False
-turn = 0
 
 pygame.init()
 
@@ -93,7 +92,9 @@ screen = pygame.display.set_mode(size)
 draw_board(board)
 pygame.display.update()
 
-myfont = pygame.font.SysFont("monospace", 75)
+myfont = pygame.font.SysFont("calibri", 75)
+
+turn = random.randint(PLAYER, KI)
 
 while not game_over:
 

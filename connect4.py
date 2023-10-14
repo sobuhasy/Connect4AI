@@ -1,4 +1,5 @@
 import numpy as np
+import random
 import pygame
 import sys
 import math
@@ -131,9 +132,10 @@ while not game_over:
 
 
 	# # Ask for Player 2 Input
-	if turn == KI and not game_over:				
-		posx = event.pos[0]
-		col = int(math.floor(posx/SQUARESIZE))
+	if turn == KI and not game_over:
+
+		col = random.randint(0, COLUMN_COUNT-1)				
+
 
 		if is_valid_location(board, col):
 			row = get_next_open_row(board, col)

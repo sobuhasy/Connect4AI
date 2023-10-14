@@ -11,6 +11,9 @@ YELLOW = (255,255,0)
 ROW_COUNT = 6
 COLUMN_COUNT = 7
 
+PLAYER = 0
+KI = 1
+
 def create_board():
 	board = np.zeros((ROW_COUNT,COLUMN_COUNT))
 	return board
@@ -110,7 +113,7 @@ while not game_over:
 			pygame.draw.rect(screen, BLACK, (0,0, width, SQUARESIZE))
 			#print(event.pos)
 			# Ask for Player 1 Input
-			if turn == 0:
+			if turn == PLAYER:
 				posx = event.pos[0]
 				col = int(math.floor(posx/SQUARESIZE))
 
@@ -122,27 +125,30 @@ while not game_over:
 						label = myfont.render("Player 1 wins!!", 1, RED)
 						screen.blit(label, (40,10))
 						game_over = True
+				
+					turn += 1
+					turn = turn % 2
 
 
-			# # Ask for Player 2 Input
-			else:				
-				posx = event.pos[0]
-				col = int(math.floor(posx/SQUARESIZE))
+	# # Ask for Player 2 Input
+	if turn == KI and not game_over:				
+		posx = event.pos[0]
+		col = int(math.floor(posx/SQUARESIZE))
 
-				if is_valid_location(board, col):
-					row = get_next_open_row(board, col)
-					drop_piece(board, row, col, 2)
+		if is_valid_location(board, col):
+			row = get_next_open_row(board, col)
+			drop_piece(board, row, col, 2)
 
-					if winning_move(board, 2):
-						label = myfont.render("Player 2 wins!!", 1, YELLOW)
-						screen.blit(label, (40,10))
-						game_over = True
+			if winning_move(board, 2):
+				label = myfont.render("Player 2 wins!!", 1, YELLOW)
+				screen.blit(label, (40,10))
+				game_over = True
 
 			print_board(board)
-			draw_board(board)
+			draw_board(board)	
 
 			turn += 1
 			turn = turn % 2
 
-			if game_over:
-				pygame.time.wait(3000)
+	if game_over:
+		pygame.time.wait(3000)

@@ -15,6 +15,11 @@ COLUMN_COUNT = 7
 PLAYER = 0
 KI = 1
 
+PLAYER_PIECE = 1
+KI_PIECE = 2
+
+WINDOW_LENGTH = 4
+
 def create_board():
 	board = np.zeros((ROW_COUNT,COLUMN_COUNT))
 	return board
@@ -58,6 +63,18 @@ def winning_move(board, piece):
 			if board[r][c] == piece and board[r-1][c+1] == piece and board[r-2][c+2] == piece and board[r-3][c+3] == piece:
 				return True
 
+def score_position(board, piece):
+	# Horizontal score
+	score = 0
+	for r in range(ROW_COUNT):
+		row_array = [int(i) for i in list(board[r,:])]
+		for c in range(COLUMN_COUNT-3):
+			window = row_array[c:c+WINDOW_LENGTH]
+			if window.count(piece) == 4:
+				score += 100
+
+	return score
+
 def draw_board(board):
 	for c in range(COLUMN_COUNT):
 		for r in range(ROW_COUNT):
@@ -66,9 +83,9 @@ def draw_board(board):
 	
 	for c in range(COLUMN_COUNT):
 		for r in range(ROW_COUNT):		
-			if board[r][c] == 1:
+			if board[r][c] == PLAYER_PIECE:
 				pygame.draw.circle(screen, RED, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
-			elif board[r][c] == 2: 
+			elif board[r][c] == KI_PIECE: 
 				pygame.draw.circle(screen, YELLOW, (int(c*SQUARESIZE+SQUARESIZE/2), height-int(r*SQUARESIZE+SQUARESIZE/2)), RADIUS)
 	pygame.display.update()
 
@@ -119,9 +136,9 @@ while not game_over:
 
 				if is_valid_location(board, col):
 					row = get_next_open_row(board, col)
-					drop_piece(board, row, col, 1)
+					drop_piece(board, row, col, PLAYER_PIECE)
 
-					if winning_move(board, 1):
+					if winning_move(board, PLAYER_PIECE):
 						label = myfont.render("Player 1 wins!!", 1, RED)
 						screen.blit(label, (40,10))
 						game_over = True
@@ -142,9 +159,9 @@ while not game_over:
 		if is_valid_location(board, col):
 			pygame.time.wait(500)
 			row = get_next_open_row(board, col)
-			drop_piece(board, row, col, 2)
+			drop_piece(board, row, col, KI_PIECE)
 
-			if winning_move(board, 2):
+			if winning_move(board, KI_PIECE):
 				label = myfont.render("Player 2 wins!!", 1, YELLOW)
 				screen.blit(label, (40,10))
 				game_over = True

@@ -78,6 +78,29 @@ def score_position(board, piece):
 
 	return score
 
+def get_valid_locations(board):
+	valid_locations = []
+	for col in range(COLUMN_COUNT-3):
+		if is_valid_location(board, col):
+			valid_locations.append(col)
+	return valid_locations
+
+def pick_best_move(board, piece):
+
+	valid_locations = get_valid_locations(board)
+	best_score = 0
+	best_col = random.choice(valid_locations)
+	for col in valid_locations:
+		row = get_next_open_row(board, col)
+		temp_board = board.copy()
+		drop_piece(temp_board, row, col, piece)
+		score = score_position(temp_board, piece)
+		if score > best_score:
+			best_score = score
+			best_col = col
+	return best_col
+
+
 def draw_board(board):
 	for c in range(COLUMN_COUNT):
 		for r in range(ROW_COUNT):

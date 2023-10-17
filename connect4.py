@@ -75,6 +75,17 @@ def score_position(board, piece):
 				score += 100
 			elif window.count(piece) == 3 and window.count(EMPTY) == 1:
 				score += 10
+	
+
+	# Vertical score
+	for c in range(COLUMN_COUNT):
+		col_array = [int(i) for i in list(board[:,c])]
+		for r in range(ROW_COUNT-3):
+			window = row_array[r:r+WINDOW_LENGTH]
+			if window.count(piece) == 4:
+				score += 100
+			elif window.count(piece) == 3 and window.count(EMPTY) == 1:
+				score += 10
 
 	return score
 
